@@ -77,7 +77,8 @@ async function convert(options) {
         console.log("Output file:", options.resultFile);
         console.log("Separator for CSV file:", options.separator);
         console.log("------------------------------------------------------");
-
+        
+        console.log("Converting...");
         await pipeline(
             readFromJson, 
             transformBufferToObject, 

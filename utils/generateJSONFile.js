@@ -28,7 +28,7 @@ async function generateJSONFile() {
         console.log("[CORRECT] Correcting of JSON file has been completed successfully!");
 
         let n = 0;
-        while (n < 10) { // ! 3000
+        while (n < 10) {
             await pipeline(
                 fs.createReadStream(correctedFilePath),
                 fs.createWriteStream(fileForTestingPath, {flags: 'a'})

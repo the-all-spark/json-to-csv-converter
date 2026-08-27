@@ -6,8 +6,8 @@ A command line tool that can be used to **convert JSON file to CSV**.
 A developer has also an opportunity to upload the result CSV file to their Google Drive.
 
 ## Tool installation
-`npm install the-all-spark/json-to-csv-converter`  
-`npm install -g .`
+`npm i @the-all-spark/json-to-csv-converter`  
+`npm i -g .`
 
 ## Testing
 
