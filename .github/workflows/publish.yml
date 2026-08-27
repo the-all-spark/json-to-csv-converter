@@ -1,18 +1,21 @@
 name: "publish package to npm"
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org
+          node-version: 20
+          registry-url: https://npmjs.org
       - name: publish
         run: npm publish --access public
         env:
