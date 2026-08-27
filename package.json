@@ -1,0 +1,35 @@
+{
+  "name": "@the-all-spark/json-to-csv-converter",
+  "version": "1.0.0",
+  "description": "A command line tool that can be used to convert JSON file to CSV.",
+  "author": "Anna German",
+  "main": "jsonToCsv.js",
+  "bin": {
+    "converter": "jsonToCsv.js"
+  },
+  "scripts": {
+    "clean": "node ./utils/removeGeneratedFiles.js",
+    "pregenerate": "npm run clean",
+    "generate": "node ./utils/generateJSONFile.js"
+  },
+  "keywords": [
+    "cli",
+    "npmtool",
+    "converter",
+    "json",
+    "csv"
+  ],
+  "license": "ISC",
+  "type": "module",
+  "repository": "https://github.com/the-all-spark/json-to-csv-converter",
+  "homepage": "https://github.com/the-all-spark/json-to-csv-converter#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "commander": "^15.0.0",
+    "dotenv": "^17.4.2",
+    "figlet": "^1.11.4",
+    "googleapis": "^176.0.0"
+  }
+}
