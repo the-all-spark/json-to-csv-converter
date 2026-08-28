@@ -1,7 +1,4 @@
 # Custom
-test/
-output/
-output*.csv
 .npmrc
 
 # Logs

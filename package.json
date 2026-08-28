@@ -3,18 +3,15 @@
   "version": "1.0.0",
   "description": "A command line tool that can be used to convert JSON file to CSV.",
   "author": "Anna German",
-  "main": "jsonToCsv.js",
+  "main": "src/main.js",
   "bin": {
-    "converter": "jsonToCsv.js"
+    "converter": "src/main.js"
   },
   "scripts": {
-    "clean": "node ./utils/removeGeneratedFiles.js",
-    "pregenerate": "npm run clean",
-    "generate": "node ./utils/generateJSONFile.js"
+    "generate": "node src/utils/generate.js"
   },
   "keywords": [
     "cli",
-    "npmtool",
     "converter",
     "json",
     "csv"
@@ -29,7 +26,6 @@
   "dependencies": {
     "commander": "^15.0.0",
     "dotenv": "^17.4.2",
-    "figlet": "^1.11.4",
     "googleapis": "^176.0.0"
   }
 }

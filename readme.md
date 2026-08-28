@@ -11,11 +11,8 @@ A developer has also an opportunity to upload the result CSV file to their Googl
 
 ## Testing
 
-- create file for testing (test/test-to-run.json):  
+- generate file for testing (test/test-to-run.json):  
 `npm run generate` 
-
-- remove test folder (if necessary)  
-`npm run clean`
 
 Note:  
 **To upload the result file** to Google Drive, developer needs to:
@@ -40,13 +37,11 @@ Display help information:
 ### Examples
 
 With test file:  
-- `converter --sourceFile test/test-to-run.json --resultFile output.csv`  
-- `converter -s test/test-to-run.json -r output.csv`  
-- `converter -s test/test-to-run.json -r result/output.csv`
-- `converter -s test/test-to-run.json -r output.csv --sep \.`
+- `converter --sourceFile new-test.json --resultFile output.csv`  
+- `converter -s new-test.json -r output.csv`  
+- `converter -s new-test.json -r output.csv --sep \.`
 
 With custom file:  
 - `converter --sourceFile input.json --resultFile output.csv`  
-- `converter -s input.json -r output.csv` 
-- `converter -s input.json -r result/output.csv`  
+- `converter -s input.json -r output.csv`  
 - `converter -s input.json -r output.csv --sep \;`  

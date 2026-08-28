@@ -1,10 +1,10 @@
-// * Upload result file (.csv) to Google Drive
+// * Uploading result file (.csv) to Google Drive
 
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 
-import { GoogleDriveService } from "./googleDriveService.js";
+import { GoogleDriveService } from "../services/google.service.js"; //! коррекция пути
 
 dotenv.config();
 
@@ -18,7 +18,10 @@ export async function uploadToGoogleDrive(fileName) {
 
   const googleDriveService = new GoogleDriveService(driveClientId, driveClientSecret, driveRedirectUri, driveRefreshToken);
 
-  const finalPath = path.join(import.meta.dirname, "..", fileName);
+  const finalPath = path.join(import.meta.dirname, "../../", fileName);
+  console.log("fileName: ", fileName); //!
+  console.log("finalPath: ", finalPath); //!
+
   const folderName = "[jsonToCsv]_result";
 
   if (!fs.existsSync(finalPath)) {
@@ -36,7 +39,7 @@ export async function uploadToGoogleDrive(fileName) {
     await googleDriveService.saveFile(fileName, finalPath, "text/csv", folder.id);
     console.log(`[UPLOAD] Successfully! '${fileName}' has been uploaded in '${folderName}' folder.`);
 
-    // ! Delete the file on the server
+    // ! Delete the local file
     // fs.unlinkSync(finalPath);
     // console.log("[REMOVE] File has been removed from server.");
 
