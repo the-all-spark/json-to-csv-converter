@@ -1,6 +1,6 @@
 {
   "name": "@the-all-spark/json-to-csv-converter",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A command line tool that can be used to convert JSON file to CSV.",
   "author": "Anna German",
   "main": "src/main.js",
