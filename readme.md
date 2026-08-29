@@ -2,23 +2,18 @@
 
 ## Description
 
-A command line tool that can be used to **convert JSON file to CSV**.  
-A developer has also an opportunity to upload the result CSV file to their Google Drive.
+A command line tool that can be used to **convert JSON file to CSV** and upload the result CSV file to Google Drive.  
+Developers have also an opportunity to generate testing file.
 
 ## Tool installation
 `npm i @the-all-spark/json-to-csv-converter`  
-`npm i -g .`
+or globally:    
+`npm i -g @the-all-spark/json-to-csv-converter`
 
-## Testing
+## Testing (for developers)
 
-- generate file for testing (test/test-to-run.json):  
+Generate file for testing (new-test.json in root directory):  
 `npm run generate` 
-
-Note:  
-**To upload the result file** to Google Drive, developer needs to:
-- create their project in Google Cloud Console;
-- get their personal keys and refresh_token;
-- create a local `.env` file and fill it with the data (according to the `.env.example` file).
 
 ## CLI tool usage
 
@@ -33,6 +28,12 @@ Display help information:
 
 **Optional**:  
 `--separator` (or `--sep`) - separator that is used while converting ("," by default)  
+
+Note:  
+**To upload the result file** to your Google Drive, you need to:
+- create project in Google Cloud Console;
+- get your personal keys and refresh_token;
+- create a local `.env` file and fill it with the data (according to the `.env.example` file).
 
 ### Examples
 

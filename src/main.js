@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 import { Command } from "commander"; 
-import { convert } from "../src/utils/convert.js"; // ! импортировать convert
+import { convert } from "../src/utils/convert.js";
 
 const program = new Command();
 

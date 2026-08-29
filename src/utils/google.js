@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 
-import { GoogleDriveService } from "../services/google.service.js"; //! коррекция пути
+import { GoogleDriveService } from "../services/google.service.js"; 
 
 dotenv.config();
 
@@ -18,10 +18,7 @@ export async function uploadToGoogleDrive(fileName) {
 
   const googleDriveService = new GoogleDriveService(driveClientId, driveClientSecret, driveRedirectUri, driveRefreshToken);
 
-  const finalPath = path.join(import.meta.dirname, "../../", fileName);
-  console.log("fileName: ", fileName); //!
-  console.log("finalPath: ", finalPath); //!
-
+  const finalPath = path.resolve(process.cwd(), fileName); 
   const folderName = "[jsonToCsv]_result";
 
   if (!fs.existsSync(finalPath)) {
@@ -41,7 +38,7 @@ export async function uploadToGoogleDrive(fileName) {
 
     // ! Delete the local file
     // fs.unlinkSync(finalPath);
-    // console.log("[REMOVE] File has been removed from server.");
+    // console.log("[REMOVE] File has been removed.");
 
   } catch (err) {
     console.error("[-ERROR-] Working with Google Drive API failed: ", err);

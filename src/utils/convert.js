@@ -2,33 +2,29 @@ import fs from "fs";
 import { Transform } from "stream";
 import { pipeline } from "stream/promises";
 
-import { uploadToGoogleDrive } from "./google.js";  //!
+import { uploadToGoogleDrive } from "./google.js";
 
-// * Converting one JSON-object to one CSV-line
+// Converting one JSON-object to one CSV-line
 
 function convertToLine (arr, separator) {
-    return arr.join(separator) + "\n";
+  return arr.join(separator) + "\n";
 }
 
-// * Creating streams for reading from file and writing into file
+// Creating streams for reading from file and writing into file
 
 let readFromJson;
 let writeCSVToFile;
 
-// ? добавить в отдельный файл
 function checkOptions(options) {
-  console.log("options: ", options); //!
-
   if (options.sourceFile && options.resultFile) {
     readFromJson = fs.createReadStream(options.sourceFile);
     writeCSVToFile = fs.createWriteStream(options.resultFile);
-    // return {readFromJson, writeCSVToFile};  //?!
   } else {
     console.error("[-ERROR-] Error of checking options. Please provide input and output file paths!")
   }
 }
 
-// * Transforming from Buffer into object
+// Transforming from Buffer into object
 
 let objRemainder = "";
 
@@ -67,7 +63,7 @@ const transformBufferToObject = new Transform({
     }
 });
 
-// * Converting header / row into line using passed separator value (or default value)
+// Converting header / row into line using passed separator value (or default value)
 
 const createTransformJSONStream = (separator) => {
   return new Transform({
@@ -104,11 +100,11 @@ export async function convert(options) {
         checkOptions(options);
 
         console.log("[OPTIONS] You provide the following options:");
-        console.log("Input file:", options.sourceFile); //!  options.sourceFile
+        console.log("Input file:", options.sourceFile);
         console.log("Output file:", options.resultFile);
         console.log("Separator for CSV file:", options.separator);
         
-        console.log("Converting...");
+        console.log("Converting to CSV...");
 
         await pipeline(
             readFromJson, 
@@ -118,7 +114,7 @@ export async function convert(options) {
         );
         console.log("[CONVERT] Converting has been completed successfully!");
 
-        // ! Upload to Drive
+        // * Upload to Drive
         if (fs.existsSync(options.resultFile)) {
           uploadToGoogleDrive(options.resultFile);
         } else {
