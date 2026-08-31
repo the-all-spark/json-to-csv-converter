@@ -99,11 +99,11 @@ export async function convert(options) {
         const { readFromJson, writeCSVToFile } = checkOptions(options);
 
         if (!readFromJson) {
-          throw new Error("[-ERROR-] Unsupported json file");
+          throw new Error("Unsupported json file.");
         }
 
         if (!writeCSVToFile) {
-          throw new Error("[-ERROR-] Unsupported csv file");
+          throw new Error("Unsupported csv file.");
         }
 
         console.log("[OPTIONS] You provide the following options:");

@@ -1,68 +1,84 @@
-// * Generating a json-file for testing
-
 import fs from "fs";
 import path from "path";
-// import { Transform, pipeline } from "stream";
+import { pipeline } from "stream/promises";
+import { Transform } from "stream";
 
-async function removeGeneratedFile() {
-  try {
-    let testFilePath = path.resolve(process.cwd(), 'new-test.json');
+function removeGeneratedFile() {
+  let testFilePath = path.resolve(process.cwd(), 'new-test.json');
 
-    if (fs.existsSync(testFilePath)) {
-        fs.rm(testFilePath, { recursive: true, force: true }, (err) => console.log(err)); //!
-        console.log("[REMOVE] Previous file for testing has been removed successfully!");
-    }
-    // ! убрать catch  - синхронный fs
-  } catch (err) {
-      console.error("[-ERROR-] Error of file removing: ", err.message);
+  if (fs.existsSync(testFilePath)) {
+    fs.rm(testFilePath, { recursive: true, force: true }, (err) => {
+      if (err) {
+        console.error("[-ERROR-] Error of file removing: ", err.message);
+      }
+    });
   }
 }
 
-// let fromFilePath = path.resolve(process.cwd(), 'test.json');
-let fromFilePath = path.resolve(process.cwd(), 'copy.json');
+const correctJSONFileForGenerating = new Transform({
+  construct(callback) {
+      this.isFirstChunk = true;
+      callback();
+  },
 
-let fileForTestingPath = path.resolve(process.cwd(), 'new-test.json'); 
+  transform(chunk, encoding, callback) {
+      let correctChunk = "";
 
-// ! переписать со стримами
-const generateHighJSON = (path, times = 10) => {
-  if (times > 10) {
-    throw new Error("Error");
-  }
+      if (this.isFirstChunk) {
+          correctChunk = chunk.toString().slice(1).replace("]", ""); 
+          this.isFirstChunk = false;
+      } else {
+          correctChunk = chunk.toString().replace("]", "");
+      }
 
-  const data = JSON.parse(fs.readFileSync(path))
-  console.log(data); //!
+      callback(null, correctChunk);
+  },
+});
 
-  const duplicatedData = Array(times).fill(data).flat()
-  console.log(duplicatedData);
-
-  fs.writeFileSync(
-    fileForTestingPath,
-    JSON.stringify(duplicatedData)
-  )
-} 
+let fromFilePath = path.resolve(process.cwd(), "test.json");
+let fileForTestingPath = path.resolve(process.cwd(), "new-test.json");
 
 async function generateJSONFile() {
   try {
     // Remove previous test file
-    await removeGeneratedFile();
+    removeGeneratedFile();
+
+    let correctedFilePath = path.resolve(process.cwd(), "correct.json");
+
+    await pipeline(
+        fs.createReadStream(fromFilePath), 
+        correctJSONFileForGenerating,  
+        fs.createWriteStream(correctedFilePath)
+    );
 
     console.log("Generating JSON file...");
 
-    const n = 10
-    generateHighJSON(fromFilePath, n); // ! функция генерации 
+    const finalWriteStream = fs.createWriteStream(fileForTestingPath, { flags: "a" });
+    finalWriteStream.setMaxListeners(0); 
 
-    // ! убрать цикл, оставить pipeline
-    // let n = 0;
-    // while (n < 10) {
-    //     await pipeline(
-    //         fs.createReadStream(fromFilePath),
-    //         fs.createWriteStream(fileForTestingPath, {flags: 'a'})
-    //     );
-    //     n++;
-    // }
+    finalWriteStream.write('[');
+
+    let n = 0;
+    while (n < 10) {
+      if (n > 0) {
+        finalWriteStream.write(",");
+      }
+      await pipeline(
+        fs.createReadStream(correctedFilePath),
+        finalWriteStream,
+        { end: false }
+      );
+      n++;
+    }
+
+    finalWriteStream.end(']');
+
+    await new Promise((resolve) => finalWriteStream.on('finish', resolve));
 
     console.log(`[GENERATE] Data has been appended [${n}] times.`);
     console.log("[OUTPUT] File for testing: new-test.json");
+
+    fs.unlinkSync(correctedFilePath);
   } catch (err) {
     console.error("[-ERROR-] Error of generating:", err.message);
   }
