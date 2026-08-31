@@ -12,13 +12,12 @@ function convertToLine (arr, separator) {
 
 // Creating streams for reading from file and writing into file
 
-let readFromJson;
-let writeCSVToFile;
-
 function checkOptions(options) {
   if (options.sourceFile && options.resultFile) {
-    readFromJson = fs.createReadStream(options.sourceFile);
-    writeCSVToFile = fs.createWriteStream(options.resultFile);
+    const readFromJson = fs.createReadStream(options.sourceFile);
+    const writeCSVToFile = fs.createWriteStream(options.resultFile);
+
+    return { readFromJson, writeCSVToFile }
   } else {
     console.error("[-ERROR-] Error of checking options. Please provide input and output file paths!")
   }
@@ -97,7 +96,15 @@ const createTransformJSONStream = (separator) => {
 
 export async function convert(options) {
     try {
-        checkOptions(options);
+        const { readFromJson, writeCSVToFile } = checkOptions(options);
+
+        if (!readFromJson) {
+          throw new Error("[-ERROR-] Unsupported json file");
+        }
+
+        if (!writeCSVToFile) {
+          throw new Error("[-ERROR-] Unsupported csv file");
+        }
 
         console.log("[OPTIONS] You provide the following options:");
         console.log("Input file:", options.sourceFile);
