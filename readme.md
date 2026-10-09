@@ -12,10 +12,11 @@ or globally:
 
 ## Testing (for developers)
 
-Generate file for testing (new-test.json in root directory):  
-`npm run generate` 
+Generate file for testing (command below will create new-test.json in root directory):  
+`npm run generate`   
+...or use test.json from the root directory.
 
-## CLI tool usage
+## CLI usage
 
 Display help information:   
 `converter`
@@ -31,7 +32,7 @@ Display help information:
 
 Note:  
 **To upload the result file** to your Google Drive, you need to:
-- create project in Google Cloud Console;
+- create project in [Google Cloud Console](https://console.cloud.google.com/cloud-resource-manager);
 - get your personal keys and refresh_token;
 - create a local `.env` file and fill it with the data (according to the `.env.example` file).
 
